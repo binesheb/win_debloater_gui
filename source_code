@@ -70,7 +70,7 @@ namespace BloatwareRemover
                     ProcessStartInfo startInfo = new ProcessStartInfo
                     {
                         FileName = "powershell.exe",
-                        Arguments = "-NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"$ErrorActionPreference='Stop'; $packages=Get-AppxPackage -Name '" + packageName + "'; if(-not $packages){ exit 2 }; $packages | Remove-AppxPackage -ErrorAction Stop\"",
+                        Arguments = "-NoProfile -NonInteractive -Command \"$ErrorActionPreference='Stop'; $packages=Get-AppxPackage -Name '" + packageName + "'; if(-not $packages){ exit 2 }; $packages | Remove-AppxPackage -ErrorAction Stop\"",
                         UseShellExecute = false,
                         CreateNoWindow = true
                     };
