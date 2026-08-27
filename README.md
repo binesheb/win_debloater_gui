@@ -6,7 +6,7 @@ A small Windows Forms prototype for selecting installed AppX applications and re
 
 This is an early prototype. The repository currently contains the main form logic only; project/solution files and a packaged installer are not included.
 
-Versioning follows Semantic Versioning. The current maintenance baseline is `0.1.1`.
+Versioning follows Semantic Versioning. The current maintenance baseline is `0.1.2`.
 
 ## Safety
 
