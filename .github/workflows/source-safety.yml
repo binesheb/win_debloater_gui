@@ -1,0 +1,35 @@
+name: Source safety
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Validate source safety invariants
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s source_code
+
+          # The prototype must keep AppX identifiers explicit and avoid
+          # PowerShell execution-policy bypasses or dynamic command evaluation.
+          if grep -En -- '-ExecutionPolicy[[:space:]]+Bypass|Invoke-Expression|iex[[:space:](]' source_code; then
+            echo "Unsafe PowerShell execution pattern detected."
+            exit 1
+          fi
+
+          grep -F 'Get-AppxPackage -Name' source_code >/dev/null
+          grep -F 'Remove-AppxPackage -ErrorAction Stop' source_code >/dev/null
+          grep -F 'process.WaitForExit();' source_code >/dev/null
+          grep -F 'DialogResult.Yes' source_code >/dev/null
