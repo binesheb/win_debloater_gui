@@ -83,7 +83,27 @@ namespace BloatwareRemover
                             continue;
                         }
 
-                        process.WaitForExit();
+                        if (!process.WaitForExit(30000))
+                        {
+                            try
+                            {
+                                process.Kill();
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                // The process may have exited between the timeout and Kill().
+                            }
+
+                            failed++;
+                            MessageBox.Show(
+                                "Timed out while removing " + removeApplication + ". The operation was stopped.",
+                                "Timeout",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning
+                            );
+                            continue;
+                        }
+
                         if (process.ExitCode == 0)
                         {
                             removed++;
