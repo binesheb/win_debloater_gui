@@ -33,5 +33,6 @@ jobs:
 
           grep -F 'Get-AppxPackage -Name' source_code >/dev/null
           grep -F 'Remove-AppxPackage -ErrorAction Stop' source_code >/dev/null
-          grep -F 'process.WaitForExit();' source_code >/dev/null
+          grep -F 'process.WaitForExit(30000)' source_code >/dev/null
+          grep -F 'process.Kill();' source_code >/dev/null
           grep -F 'DialogResult.Yes' source_code >/dev/null
