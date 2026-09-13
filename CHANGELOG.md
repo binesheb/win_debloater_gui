@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The project follows Semantic Versioning: `MAJOR.MINOR.PATCH`.
 
+## [Unreleased]
+
+### Fixed
+- Prevent repeated AppX removal submissions while a removal operation is in progress.
+
 ## [0.1.2] - 2026-08-24
 
 ### Security
