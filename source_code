@@ -60,6 +60,7 @@ namespace BloatwareRemover
                 return;
             }
 
+            btnRemove.Enabled = false;
             int removed = 0;
             int failed = 0;
             foreach (string removeApplication in removeApplications)
@@ -121,6 +122,7 @@ namespace BloatwareRemover
                 }
             }
 
+            btnRemove.Enabled = true;
             MessageBox.Show(
                 "Removal finished.\n\nRemoved: " + removed + "\nFailed or not installed: " + failed,
                 failed == 0 ? "Success" : "Completed with errors",
