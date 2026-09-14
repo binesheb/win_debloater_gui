@@ -63,6 +63,7 @@ namespace BloatwareRemover
             btnRemove.Enabled = false;
             int removed = 0;
             int failed = 0;
+            List<string> failedApplications = new List<string>();
             foreach (string removeApplication in removeApplications)
             {
                 try
@@ -81,6 +82,7 @@ namespace BloatwareRemover
                         if (process == null)
                         {
                             failed++;
+                            failedApplications.Add(removeApplication);
                             continue;
                         }
 
@@ -96,6 +98,7 @@ namespace BloatwareRemover
                             }
 
                             failed++;
+                            failedApplications.Add(removeApplication);
                             MessageBox.Show(
                                 "Timed out while removing " + removeApplication + ". The operation was stopped.",
                                 "Timeout",
@@ -112,19 +115,24 @@ namespace BloatwareRemover
                         else
                         {
                             failed++;
+                            failedApplications.Add(removeApplication);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     failed++;
+                    failedApplications.Add(removeApplication);
                     MessageBox.Show("Could not remove " + removeApplication + ":\n\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 
             btnRemove.Enabled = true;
+            string failureDetails = failedApplications.Count == 0
+                ? string.Empty
+                : "\n\nFailed or not installed:\n" + string.Join("\n", failedApplications);
             MessageBox.Show(
-                "Removal finished.\n\nRemoved: " + removed + "\nFailed or not installed: " + failed,
+                "Removal finished.\n\nRemoved: " + removed + "\nFailed or not installed: " + failed + failureDetails,
                 failed == 0 ? "Success" : "Completed with errors",
                 MessageBoxButtons.OK,
                 failed == 0 ? MessageBoxIcon.Information : MessageBoxIcon.Warning
