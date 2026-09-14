@@ -6,6 +6,9 @@ The project follows Semantic Versioning: `MAJOR.MINOR.PATCH`.
 
 ## [Unreleased]
 
+### Added
+- Show the names of AppX applications whose removal failed or whose package was not installed.
+
 ### Fixed
 - Prevent repeated AppX removal submissions while a removal operation is in progress.
 
