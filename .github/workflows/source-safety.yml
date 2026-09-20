@@ -31,6 +31,21 @@ jobs:
             exit 1
           fi
 
+          # Removal must stay scoped to the current user's explicitly named
+          # packages. Provisioned-package and all-user removal would broaden
+          # the impact beyond the prototype's documented safety boundary.
+          if grep -En -- '-AllUsers|Get-AppxProvisionedPackage|Remove-AppxProvisionedPackage' source_code; then
+            echo "Broad or provisioned AppX removal pattern detected."
+            exit 1
+          fi
+
+          # Wildcard package names would turn an explicit allow-list into a
+          # pattern match and could remove more packages than the UI selected.
+          if grep -En -- 'Get-AppxPackage[[:space:]]+-Name[[:space:]]+[^\n]*[?*]' source_code; then
+            echo "Wildcard AppX package selection detected."
+            exit 1
+          fi
+
           grep -F 'Get-AppxPackage -Name' source_code >/dev/null
           grep -F 'Remove-AppxPackage -ErrorAction Stop' source_code >/dev/null
           grep -F 'process.WaitForExit(30000)' source_code >/dev/null
