@@ -127,6 +127,8 @@ namespace BloatwareRemover
                 }
             }
 
+            // Do not leave destructive selections armed after an operation completes.
+            lstApplications.ClearSelected();
             btnRemove.Enabled = true;
             string failureDetails = failedApplications.Count == 0
                 ? string.Empty
